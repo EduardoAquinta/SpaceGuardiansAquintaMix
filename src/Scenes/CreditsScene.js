@@ -3,6 +3,8 @@
 export class CreditsScene extends Phaser.Scene {
   constructor() {
     super("CreditsScene");
+    this.user = '';
+    this.storedHighScore = 0;
   }
 
   init(data) {
@@ -33,38 +35,41 @@ export class CreditsScene extends Phaser.Scene {
       fontSize: 20,
       color: "#0404fc",
       align: "center",
+    }); 
+      this.add.text(200, 350, "Press SPACE to restart!", {
+      fontFamily: "'Press Start 2P', serif",
+      fontSize: 20,
+      color: "#ff0000", 
+      align: "center",
     });
+    this.storedHighScore = window.localStorage.getItem('highscore');
+
+    if (this.score > this.storedHighScore){
+      window.localStorage.setItem('highscore', this.score)
+      this.storedHighScore = window.localStorage.getItem('highscore');
+      this.add.text(200, 380, "New HighScore: " + this.storedHighScore  ,{
+        fontFamily: "'Press Start 2P', serif",
+        fontSize: 20,
+        color: "#ff0000", 
+        align: "center",
+      })
+      } else {
+        this.add.text(200, 380, "HighScore: " + this.storedHighScore,{
+          fontFamily: "'Press Start 2P', serif",
+          fontSize: 20,
+          color: "#ff0000", 
+          align: "center",
+        })
+      }  
     this.add.text(180, 580, "Written by The DareDevs", {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#ff0000",
       align: "center",
     });
-    this.add.text(200, 350, "Press SPACE to restart!", {
-      fontFamily: "'Press Start 2P', serif",
-      fontSize: 20,
-      color: "ff0000", 
-      align: "center",
-    });
 
-    let storedHighScore = window.localStorage.getItem('highscore');
 
-    if (this.score > storedHighScore){
-      window.localStorage.setItem('highscore', this.score)
-      this.add.text(200, 380, "HighScore: " + this.highScore,{
-        fontFamily: "'Press Start 2P', serif",
-        fontSize: 20,
-        color: "ff0000", 
-        align: "center",
-      })
-      } else {
-        this.add.text(200, 380, "HighScore: " + this.highScore,{
-          fontFamily: "'Press Start 2P', serif",
-          fontSize: 20,
-          color: "ff0000", 
-          align: "center",
-        })
-      }     
+       
 
     console.log(window.localStorage.getItem('highscore'))
 
@@ -76,7 +81,9 @@ export class CreditsScene extends Phaser.Scene {
     if (keySPACE.isDown) {
       this.scene.start("GameScene");
     }
-       
+       if(this.score > this.storedHighScore) {
+        window.localStorage.setItem('highScoreTable', this.user)
+       }
 
     
   }

@@ -82,7 +82,7 @@ class TitleScene extends Phaser.Scene {
     this.levelEnd.play()
 
     window.localStorage.setItem('highscore', this.highscore)
-    window.localStorage.setObj('highscoretable', this.highScoreTable)
+    window.localStorage.setItem('highscoretable', this.highScoreTable)
 
     console.log(localStorage);
 

@@ -440,9 +440,9 @@ class GameScene extends Phaser.Scene {
         this.enemyBulletSound.play();
       }
     }
-
-    let highScoreStarter = 0;
-localStorage.setItem("spaceGuardiansHighScore",  highScoreStarter) 
+   
+      
+     
   }
 
   //bespoke methods
@@ -493,6 +493,8 @@ localStorage.setItem("spaceGuardiansHighScore",  highScoreStarter)
     this.scene.start('CreditsScene', this.overall);
   }
 
+
+  //joypad inputs
   
 
   //Phaser Update method
@@ -506,7 +508,8 @@ localStorage.setItem("spaceGuardiansHighScore",  highScoreStarter)
     //Initiate the keyboard keys required
     const cursors = this.input.keyboard.createCursorKeys();
 
-    //pause the game
+
+     //pause the game
     if (cursors.shift.isDown) {
       this.music.setVolume(0.2);
       this.scene.pause('GameScene');
@@ -537,6 +540,29 @@ localStorage.setItem("spaceGuardiansHighScore",  highScoreStarter)
         this.lastFired = time + 50;
       }
     }
+
+    //possible joypad inputs
+    // if (pad.left)
+    //     {
+    //       this.player.x -= 3;
+    //       this.started = true;
+    //     }
+    //     else if (pad.right)
+    //     {
+    //       this.player.x += 3;
+    //       this.started = true;
+    //     }
+    //     if(pad.a){ 
+    //       this.started = true;
+    //   var bullet = this.bullets.get();
+    //   if (bullet) {
+    //     bullet.fire(this.player.x, this.player.y);
+    //     this.shootWeapon();
+    //     this.lastFired = time + 50;
+    //   }
+    //     }
+
+
 
     //utilise FullScreen mode
     let CTRLKey = this.input.keyboard.addKey('CTRL');
