@@ -1,0 +1,22 @@
+{
+  "name": "space-guardians-aquinta-mix",
+  "version": "1.0.0",
+  "description": "Aquinta Mix Of Space Gaurdians",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EduardoAquinta/SpaceGuardiansAquintaMix.git"
+  },
+  "author": "Aquinta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EduardoAquinta/SpaceGuardiansAquintaMix/issues"
+  },
+  "homepage": "https://github.com/EduardoAquinta/SpaceGuardiansAquintaMix#readme",
+  "dependencies": {
+    "phaser": "^3.55.2"
+  }
+}
