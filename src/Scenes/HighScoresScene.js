@@ -7,6 +7,8 @@ class Highscore extends Phaser.Scene {
 
 preload() {
     this.load.image("starfield", "./assets/stars.png");
+    this.load.image("rub", "./assets/rub.png");
+    this.load.image("end", "./assets/end.png");
     var head  = document.getElementsByTagName('head')[0];
     var link  = document.createElement('link');
     link.rel  = 'stylesheet';

@@ -440,6 +440,9 @@ class GameScene extends Phaser.Scene {
         this.enemyBulletSound.play();
       }
     }
+
+    let highScoreStarter = 0;
+localStorage.setItem("spaceGuardiansHighScore",  highScoreStarter) 
   }
 
   //bespoke methods
@@ -489,6 +492,8 @@ class GameScene extends Phaser.Scene {
     this.game.config.physics.arcade.gravity.y = 0.05;
     this.scene.start('CreditsScene', this.overall);
   }
+
+  
 
   //Phaser Update method
 

@@ -5,7 +5,9 @@ class TitleScene extends Phaser.Scene {
     super('TitleScene');
     this.modeSelected=false;
     this.timer = 0;
-    this.text = ""
+    this.text = "";
+    this.highscore =  0;
+    this.highScoreTable = [];
   }
   preload() {
     this.load.image("starfield", "./assets/stars.png");
@@ -33,8 +35,6 @@ class TitleScene extends Phaser.Scene {
     this.add.image(500, 230, 'redEnemy');
     this.add.image(600, 230, 'strongestEnemy');
     
-   
-
     this.levelEnd = this.sound.add('levelEnd', { loop: false });
     
     this.text = this.add.text(200,300,'Press SPACE to start!', {
@@ -80,6 +80,11 @@ class TitleScene extends Phaser.Scene {
     })
 
     this.levelEnd.play()
+
+    window.localStorage.setItem('highscore', this.highscore)
+    window.localStorage.setObj('highscoretable', this.highScoreTable)
+
+    console.log(localStorage);
 
   }
   update(time){
