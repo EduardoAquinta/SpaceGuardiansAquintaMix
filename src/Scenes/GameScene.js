@@ -35,6 +35,10 @@ class GameScene extends Phaser.Scene {
     return this.score;
   }
 
+    init(data) {
+      this.highScoreTable = data.highScoreTable;
+
+    }
   //Phaser Preload function
   preload() {
     var head = document.getElementsByTagName('head')[0];
@@ -441,7 +445,8 @@ class GameScene extends Phaser.Scene {
       }
     }
    
-      
+    console.log(this.highScoreTable)
+ 
      
   }
 
@@ -464,6 +469,8 @@ class GameScene extends Phaser.Scene {
       this.livesDisplayer.setText(`Lives: ${this.playerLives}`);
       this.extraLife.play();
     }
+
+
   }
 
   //play SFX methods
@@ -492,7 +499,6 @@ class GameScene extends Phaser.Scene {
     this.game.config.physics.arcade.gravity.y = 0.05;
     this.scene.start('CreditsScene', this.overall);
   }
-
 
   //joypad inputs
   

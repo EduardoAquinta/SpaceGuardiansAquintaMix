@@ -5,11 +5,13 @@ export class CreditsScene extends Phaser.Scene {
     super("CreditsScene");
     this.user = '';
     this.storedHighScore = 0;
+    this.highScoreAndName = {};
   }
 
   init(data) {
     this.score = data.score;
     this.level = data.level; 
+    this.highScoreTable = data.highScoreTable;
   }
 
   preload() {
@@ -46,8 +48,10 @@ export class CreditsScene extends Phaser.Scene {
 
     if (this.score > this.storedHighScore){
       window.localStorage.setItem('highscore', this.score)
+      this.user = prompt("Please input your name:", "user");
       this.storedHighScore = window.localStorage.getItem('highscore');
-      this.add.text(200, 380, "New HighScore: " + this.storedHighScore  ,{
+      this.highScoreAndName.push(this.highScoreAndName);
+      this.add.text(200, 380, "New HighScore: " + this.storedHighScore + ": " + this.user  ,{
         fontFamily: "'Press Start 2P', serif",
         fontSize: 20,
         color: "#ff0000", 
@@ -61,6 +65,12 @@ export class CreditsScene extends Phaser.Scene {
           align: "center",
         })
       }  
+      this.add.text(200, 410 , "Table" + this.highScoreTable  ,{
+        fontFamily: "'Press Start 2P', serif",
+        fontSize: 20,
+        color: "#ff0000", 
+        align: "center",
+      })
     this.add.text(180, 580, "Written by The DareDevs", {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
@@ -68,10 +78,24 @@ export class CreditsScene extends Phaser.Scene {
       align: "center",
     });
 
+    // this.number_of_high_scores = 10;
 
+    // function saveHighScore(score, highScores) {
+    //   const name = prompt('Please enter your name:');
+    //   const newScore = {score, name};
+
+    //   this.highScores.push(newScore);
+
+    //   this.highScores.sort((a, b) => b.score - a.score);
+
+    //   this.highScores.splice(number_of_high_scores);
+
+    //   localStorage.setItem(this.storedHighScore, JSON.stringify(this.highScores))
+    // }
        
 
     console.log(window.localStorage.getItem('highscore'))
+    console.log(this.highScoreTable)
 
    }
   update() {
