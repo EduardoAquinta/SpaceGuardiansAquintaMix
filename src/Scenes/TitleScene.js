@@ -12,14 +12,14 @@ class TitleScene extends Phaser.Scene {
   }
   
   preload() {
-    this.load.image("starfield", "./assets/stars.png");
-    this.load.image('player', './assets/player.png')
-    this.load.image('blueEnemy', './assets/blueEnemy.png')
-    this.load.image('blueYellowEnemy', './assets/blueYellowEnemy.png')
-    this.load.image('redEnemy', './assets/redBlueEnemy.png')
-    this.load.image('strongestEnemy', './assets/strongestEnemy.png')
-    this.load.image('title', './assets/SG.png');
-    this.load.audio('levelEnd', ['./assets/level.wav']);
+    this.load.image("starfield", "./src/assets/stars.png");
+    this.load.image('player', './src/assets/player.png')
+    this.load.image('blueEnemy', './src/assets/blueEnemy.png')
+    this.load.image('blueYellowEnemy', './src/assets/blueYellowEnemy.png')
+    this.load.image('redEnemy', './src/assets/redBlueEnemy.png')
+    this.load.image('strongestEnemy', './src/assets/strongestEnemy.png')
+    this.load.image('title', './src/assets/SG.png');
+    this.load.audio('levelEnd', ['./src/assets/level.wav']);
     var head  = document.getElementsByTagName('head')[0];
     var link  = document.createElement('link');
     link.rel  = 'stylesheet';
@@ -89,6 +89,7 @@ class TitleScene extends Phaser.Scene {
 
 
    this.table = {table: this.highScoreTable}
+   this.fullscreen = {fullScreen: this.scale.fullscreen}
 
   }
   //bespoke Methods
@@ -107,12 +108,26 @@ class TitleScene extends Phaser.Scene {
     if(keySPACE.isDown && !this.modeSelected){
         this.add.text(250,400,'GET READY')
         this.modeSelected=true;
-        this.scene.start('GameScene',  this.table)
+        this.scene.start('GameScene',  this.table, this.fullScreen)
     } 
    this.timer+= time.elapsed;
    if (this.timer >= 1000) {
     this.text.active = !this.text.active
    }
+
+    //utilise full screen
+   let CTRLKey = this.input.keyboard.addKey('CTRL');
+   CTRLKey.on(
+     'down',
+     function () {
+       if (this.scale.isFullscreen) {
+         this.scale.stopFullscreen();
+       } else {
+         this.scale.startFullscreen();
+       }
+     },
+     this
+   );
   }
 }
 

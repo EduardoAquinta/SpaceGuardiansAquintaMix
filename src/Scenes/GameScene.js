@@ -38,6 +38,7 @@ class GameScene extends Phaser.Scene {
   init(data) {
 
     this.highScoreTable = data.table;
+    this.fullScreen = data.fullScreen;
   }
  
   //Phaser Preload function
@@ -49,25 +50,25 @@ class GameScene extends Phaser.Scene {
       'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap';
     head.appendChild(link);
 
-    this.load.image('starfield', './assets/stars.png');
-    this.load.image('player', './assets/player.png');
-    this.load.image('blueInvader', './assets/blueEnemy.png');
-    this.load.image('blueYellowInvader', './assets/blueYellowEnemy.png');
-    this.load.image('redBlueInvader', './assets/redBlueEnemy.png');
-    this.load.image('strongestInvader', './assets/strongestEnemy.png');
-    this.load.image('bullet', './assets/bullet.png');
-    this.load.image('enemyBullet', './assets/enemyBullet.png');
-    this.load.spritesheet('explosion', './assets/explosion.png', {
+    this.load.image('starfield', './src/assets/stars.png');
+    this.load.image('player', './src/assets/player.png');
+    this.load.image('blueInvader', './src/assets/blueEnemy.png');
+    this.load.image('blueYellowInvader', './src/assets/blueYellowEnemy.png');
+    this.load.image('redBlueInvader', './src/assets/redBlueEnemy.png');
+    this.load.image('strongestInvader', './src/assets/strongestEnemy.png');
+    this.load.image('bullet', './src/assets/bullet.png');
+    this.load.image('enemyBullet', './src/assets/enemyBullet.png');
+    this.load.spritesheet('explosion', './src/assets/explosion.png', {
       frameWidth: 24,
       frameHeight: 36,
     });
-    this.load.audio('shoot', ['./assets/shoot.wav']);
-    this.load.audio('death', ['./assets/death.wav']);
-    this.load.audio('tune', ['./assets/music.mp3']);
-    this.load.audio('levelEnd', ['./assets/level.wav']);
-    this.load.audio('enemyBulletSound', ['./assets/enemyBulletSound.wav']);
-    this.load.audio('playerDeathSound', ['./assets/playerDeathSound.wav']);
-    this.load.audio('extraLife', ['./assets/extraLife.wav']);
+    this.load.audio('shoot', ['./src/assets/shoot.wav']);
+    this.load.audio('death', ['./src/assets/death.wav']);
+    this.load.audio('tune', ['./src/assets/music.mp3']);
+    this.load.audio('levelEnd', ['./src/assets/level.wav']);
+    this.load.audio('enemyBulletSound', ['./src/assets/enemyBulletSound.wav']);
+    this.load.audio('playerDeathSound', ['./src/assets/playerDeathSound.wav']);
+    this.load.audio('extraLife', ['./src/assets/extraLife.wav']);
   }
 
   //Phaser create function
@@ -509,7 +510,7 @@ class GameScene extends Phaser.Scene {
     //scroll the starfield
     this.starfield.tilePositionY -= 0.5;
     //Score and Level set variable for Game-over Screen
-    this.overall = { score: this.score, level: this.level, music: this.music , table: this.highScoreTable};
+    this.overall = { score: this.score, level: this.level, music: this.music , table: this.highScoreTable, fullScreen: this.scale.fullscreen};
 
     //Initiate the keyboard keys required
     const cursors = this.input.keyboard.createCursorKeys();

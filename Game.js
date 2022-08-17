@@ -1,7 +1,7 @@
-import GameScene from "./Scenes/GameScene.js";
-import TitleScene from "./Scenes/TitleScene.js";
-import { PauseScene } from "./Scenes/PauseScene.js";
-import { CreditsScene } from "./Scenes/CreditsScene.js";
+import GameScene from "./src/Scenes/GameScene.js";
+import TitleScene from "./src/Scenes/TitleScene.js";
+import { PauseScene } from "./src/Scenes/PauseScene.js";
+import { CreditsScene } from "./src/Scenes/CreditsScene.js";
 
 
 // Phaser configuration
