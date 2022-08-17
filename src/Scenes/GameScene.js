@@ -35,6 +35,10 @@ class GameScene extends Phaser.Scene {
     return this.score;
   }
 
+    init(data) {
+      this.highScoreTable = data.highScoreTable;
+
+    }
   //Phaser Preload function
   preload() {
     var head = document.getElementsByTagName('head')[0];
@@ -440,6 +444,10 @@ class GameScene extends Phaser.Scene {
         this.enemyBulletSound.play();
       }
     }
+   
+    console.log(this.highScoreTable)
+ 
+     
   }
 
   //bespoke methods
@@ -461,6 +469,8 @@ class GameScene extends Phaser.Scene {
       this.livesDisplayer.setText(`Lives: ${this.playerLives}`);
       this.extraLife.play();
     }
+
+
   }
 
   //play SFX methods
@@ -490,6 +500,9 @@ class GameScene extends Phaser.Scene {
     this.scene.start('CreditsScene', this.overall);
   }
 
+  //joypad inputs
+  
+
   //Phaser Update method
 
   update(time, delta) {
@@ -501,7 +514,8 @@ class GameScene extends Phaser.Scene {
     //Initiate the keyboard keys required
     const cursors = this.input.keyboard.createCursorKeys();
 
-    //pause the game
+
+     //pause the game
     if (cursors.shift.isDown) {
       this.music.setVolume(0.2);
       this.scene.pause('GameScene');
@@ -532,6 +546,29 @@ class GameScene extends Phaser.Scene {
         this.lastFired = time + 50;
       }
     }
+
+    //possible joypad inputs
+    // if (pad.left)
+    //     {
+    //       this.player.x -= 3;
+    //       this.started = true;
+    //     }
+    //     else if (pad.right)
+    //     {
+    //       this.player.x += 3;
+    //       this.started = true;
+    //     }
+    //     if(pad.a){ 
+    //       this.started = true;
+    //   var bullet = this.bullets.get();
+    //   if (bullet) {
+    //     bullet.fire(this.player.x, this.player.y);
+    //     this.shootWeapon();
+    //     this.lastFired = time + 50;
+    //   }
+    //     }
+
+
 
     //utilise FullScreen mode
     let CTRLKey = this.input.keyboard.addKey('CTRL');
