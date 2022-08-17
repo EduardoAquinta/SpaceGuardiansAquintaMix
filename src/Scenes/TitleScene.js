@@ -11,6 +11,8 @@ class TitleScene extends Phaser.Scene {
     this.highScoreTable = [];
     this.highScoreTable.length = 10;
   }
+
+  
   preload() {
     this.load.image("starfield", "./assets/stars.png");
     this.load.image('player', './assets/player.png')
@@ -85,8 +87,7 @@ class TitleScene extends Phaser.Scene {
 
     window.localStorage.setItem('highscoretable', this.highScoreTable)
 
-    console.log(localStorage);
-    console.log(this.highScoreTable);
+   this.table = {table: this.highScoreTable}
 
   }
   update(time){
@@ -98,7 +99,7 @@ class TitleScene extends Phaser.Scene {
     if(keySPACE.isDown && !this.modeSelected){
         this.add.text(250,400,'GET READY')
         this.modeSelected=true;
-        this.scene.start('GameScene',  this.highScoreTable)
+        this.scene.start('GameScene',  this.table)
     } 
    this.timer+= time.elapsed;
    if (this.timer >= 1000) {

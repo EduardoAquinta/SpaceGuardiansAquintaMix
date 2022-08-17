@@ -35,10 +35,11 @@ class GameScene extends Phaser.Scene {
     return this.score;
   }
 
-    init(data) {
-      this.highScoreTable = data.highScoreTable;
+  init(data) {
 
-    }
+    this.highScoreTable = data.table;
+  }
+ 
   //Phaser Preload function
   preload() {
     var head = document.getElementsByTagName('head')[0];
@@ -72,6 +73,8 @@ class GameScene extends Phaser.Scene {
   //Phaser create function
 
   create() {
+
+    console.log(this.highScoreTable);
     this.physics.world.setBounds(0, 0, 800, 600);
     this.starfield = this.add
       .tileSprite(0, 0, 800, 600, 'starfield')
@@ -445,8 +448,7 @@ class GameScene extends Phaser.Scene {
       }
     }
    
-    console.log(this.highScoreTable)
- 
+
      
   }
 
@@ -500,7 +502,6 @@ class GameScene extends Phaser.Scene {
     this.scene.start('CreditsScene', this.overall);
   }
 
-  //joypad inputs
   
 
   //Phaser Update method
@@ -509,7 +510,7 @@ class GameScene extends Phaser.Scene {
     //scroll the starfield
     this.starfield.tilePositionY -= 0.5;
     //Score and Level set variable for Game-over Screen
-    this.overall = { score: this.score, level: this.level, music: this.music };
+    this.overall = { score: this.score, level: this.level, music: this.music , table: this.highScoreTable};
 
     //Initiate the keyboard keys required
     const cursors = this.input.keyboard.createCursorKeys();
