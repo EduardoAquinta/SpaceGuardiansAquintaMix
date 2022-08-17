@@ -7,13 +7,17 @@ export class CreditsScene extends Phaser.Scene {
     this.storedHighScore = 0;
     this.newScore = {};
     this.number_of_high_scores = 10;
+    this.textMove = 15;
+    this.textMove2 = 15;
+    this.textMove3 = 15;
 
   }
 
   init(data) {
     this.score = data.score;
     this.level = data.level; 
-    this.highScoreTable = data.table;
+    this.highScoreTable = JSON.parse(data.table);
+
   }
 
   preload() {
@@ -28,19 +32,19 @@ export class CreditsScene extends Phaser.Scene {
 
   create() {
     this.add.image(400, 100, "title");
-    this.add.text(230, 280, `You scored - ${this.score}`, {
+    this.add.text(230, 530, `You scored - ${this.score}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#ff0000",
       align: "center",
     });
-    this.add.text(190, 330, `You reached Level - ${this.level}`, {
+    this.add.text(190, 500, `You reached Level - ${this.level}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#0404fc",
       align: "center",
     }); 
-      this.add.text(200, 350, "Press SPACE to restart!", {
+      this.add.text(200, 470, "Press SPACE to restart!", {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#ff0000", 
@@ -48,34 +52,60 @@ export class CreditsScene extends Phaser.Scene {
     });
     this.storedHighScore = window.localStorage.getItem('highscore');
 
-    this.highScoreTable.forEach(score => {
-      for (let key in score){
-        console.log(`${key}: ${score[key]}`);
-      }
-    })
-   
-      if(this.score > this.highScoreTable.score){
-        if(this.score > this.storedHighScore){
-          this.saveHighScore();
-        
-        }
-      }
     
-    this.add.text(200, 380, "New HighScore: " + this.storedHighScore + ": " + this.user  , {
+    for (let element of this.highScoreTable){
+       if(this.score >= element.score) {
+        this.saveHighScore();
+         break;
+      }}; 
+
+    
+    
+    
+    // this.add.text(200, 380, "HighScore: " + this.highScoreTable[0].score + ": " + this.highScoreTable[0].user  , {
+    //   fontFamily: "'Press Start 2P', serif",
+    //   fontSize: 20,
+    //   color: "#ff0000",    
+    //   align: "center",
+    // })
+    this.add.text(180, 170, "Rank     Name     Score", {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
-      color: "#ff0000",    
+      color: "#ff0000", 
       align: "center",
-    })
+    });
      
-    
-      this.add.text(200, 410 , "Table" + this.highScoreTable  ,{
+    this.highScoreTable.forEach((i, j) => {
+ 
+      this.textMove+=20; 
+      this.add.text(210, 180+this.textMove, j+1 ,{
         fontFamily: "'Press Start 2P', serif",
-        fontSize: 20,
+        fontSize: 15,
         color: "#ff0000", 
         align: "center",
       })
-    this.add.text(180, 580, "Written by The DareDevs", {
+    } )
+    this.highScoreTable.forEach((i, j) => {
+      this.textMove2+=20; 
+      this.add.text(350, 180+this.textMove2, i.user, {
+        fontFamily: "'Press Start 2P', serif",
+        fontSize: 15,
+        color: "#ff0000", 
+        align: "center",
+      })
+    } )
+    this.highScoreTable.forEach((i, j) => {
+      console.log(j+1, i.user, i.score ) ; 
+      this.textMove3+=20; 
+      this.add.text(570, 180+this.textMove3,  i.score, {
+        fontFamily: "'Press Start 2P', serif",
+        fontSize: 15,
+        color: "#ff0000", 
+        align: "center",
+      })
+    } )
+  
+    this.add.text(200, 580, "Remixed by Aquinta", {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#ff0000",
@@ -84,10 +114,10 @@ export class CreditsScene extends Phaser.Scene {
 
    
     
-    console.log(window.localStorage.getItem('highscore'));
-    console.log(this.highScoreTable);
   }
+
 //bespoke methods
+
     saveHighScore(score) {
       let user = prompt('Please enter your name:');
       this.user = user;
@@ -106,7 +136,7 @@ export class CreditsScene extends Phaser.Scene {
       localStorage.setItem('highscoretable', JSON.stringify(this.highScoreTable));
     }
      
-    
+      
 
    
   update() {

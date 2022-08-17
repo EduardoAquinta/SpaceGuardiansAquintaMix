@@ -501,7 +501,7 @@ class GameScene extends Phaser.Scene {
     this.scene.start('CreditsScene', this.overall);
   }
 
-  
+
 
   //Phaser Update method
 
