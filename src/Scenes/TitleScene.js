@@ -10,8 +10,12 @@ class TitleScene extends Phaser.Scene {
     this.highScoreName = "";
     this.highScoreTable = [];
     this.highScoreTable.length = 10;
+    //this.highScoreTable[0] = {score: 0, user: "aaa"}
+    for (let i = 0 ; i < length; i++){
+      this.highScoreTable[i] = {score: 0, user: "aaa"};
+    }
+    this.length = 10;
   }
-
   
   preload() {
     this.load.image("starfield", "./assets/stars.png");
@@ -84,11 +88,28 @@ class TitleScene extends Phaser.Scene {
     })
 
     this.levelEnd.play()
+    
+    for (let i = 0 ; i < length; i++){
+      this.highScoreTable[i] = {score: 0, user: "aaa"};
+    }
 
+    this.createTable();
     window.localStorage.setItem('highscoretable', this.highScoreTable)
 
    this.table = {table: this.highScoreTable}
+   console.log(this.highScoreTable);
 
+   this.highScoreTable.forEach(score => {
+    for (let key in score){
+      console.log(`${key}: ${score[key]}`);
+    }
+  })
+  }
+  //bespoke Methods
+  createTable(){
+    for (let i = 0 ; i < length; i++){
+      this.highScoreTable[i].push({score: 0, user: "aaa"});
+    }
   }
   update(time){
 

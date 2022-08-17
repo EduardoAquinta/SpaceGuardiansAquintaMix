@@ -3,6 +3,7 @@
 export class CreditsScene extends Phaser.Scene {
   constructor() {
     super("CreditsScene");
+    this.user = '';
     this.storedHighScore = 0;
     this.newScore = {};
     this.number_of_high_scores = 10;
@@ -47,15 +48,26 @@ export class CreditsScene extends Phaser.Scene {
     });
     this.storedHighScore = window.localStorage.getItem('highscore');
 
-
-
-
-      this.add.text(200, 380, "New HighScore: " + this.storedHighScore + ": " + this.user  ,{
-        fontFamily: "'Press Start 2P', serif",
-        fontSize: 20,
-        color: "#ff0000",    
-        align: "center",
-      })
+    this.highScoreTable.forEach(score => {
+      for (let key in score){
+        console.log(`${key}: ${score[key]}`);
+      }
+    })
+   
+      if(this.score > this.highScoreTable.score){
+        if(this.score > this.storedHighScore){
+          this.saveHighScore();
+        
+        }
+      }
+    
+    this.add.text(200, 380, "New HighScore: " + this.storedHighScore + ": " + this.user  , {
+      fontFamily: "'Press Start 2P', serif",
+      fontSize: 20,
+      color: "#ff0000",    
+      align: "center",
+    })
+     
     
       this.add.text(200, 410 , "Table" + this.highScoreTable  ,{
         fontFamily: "'Press Start 2P', serif",
@@ -70,9 +82,7 @@ export class CreditsScene extends Phaser.Scene {
       align: "center",
     });
 
-    if(this.score > this.storedHighScore){
-      this.saveHighScore();
-    }
+   
     
     console.log(window.localStorage.getItem('highscore'));
     console.log(this.highScoreTable);
@@ -80,6 +90,10 @@ export class CreditsScene extends Phaser.Scene {
 //bespoke methods
     saveHighScore(score) {
       let user = prompt('Please enter your name:');
+      this.user = user;
+      score = this.score;
+      this.score = this.storedHighScore;
+
       this.newScore = {score, user};
 
       this.highScoreTable.push(this.newScore);
@@ -88,8 +102,8 @@ export class CreditsScene extends Phaser.Scene {
 
       this.highScoreTable.splice(this.number_of_high_scores);
 
-      localStorage.setItem(this.storedHighScore,(score));
-      localStorage.setItem('highscoretable', this.highScoreTable);
+      localStorage.setItem(this.highscore,(score));
+      localStorage.setItem('highscoretable', JSON.stringify(this.highScoreTable));
     }
      
     

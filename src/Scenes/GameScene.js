@@ -74,7 +74,6 @@ class GameScene extends Phaser.Scene {
 
   create() {
 
-    console.log(this.highScoreTable);
     this.physics.world.setBounds(0, 0, 800, 600);
     this.starfield = this.add
       .tileSprite(0, 0, 800, 600, 'starfield')
