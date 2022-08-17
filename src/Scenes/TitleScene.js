@@ -3,7 +3,6 @@
 class TitleScene extends Phaser.Scene {
   constructor() {
     super('TitleScene');
-    this.modeSelected=false;
     this.timer = 0;
     this.text = "";
     this.highscore =  0;
@@ -83,9 +82,9 @@ class TitleScene extends Phaser.Scene {
 
     this.levelEnd.play()
     
-    for (let i = 0 ; i < length; i++){
-      this.highScoreTable[i] = {score: 0, user: "aaa"};
-    }
+    // for (let i = 0 ; i < length; i++){
+    //   this.highScoreTable[i] = {score: 0, user: "aaa"};
+    // }
 
 
    this.table = {table: this.highScoreTable}
@@ -106,13 +105,12 @@ class TitleScene extends Phaser.Scene {
 
     let keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     if(keySPACE.isDown && !this.modeSelected){
-        this.add.text(250,400,'GET READY')
-        this.modeSelected=true;
-        this.scene.start('GameScene',  this.table, this.fullScreen)
+        this.add.text(250,400,'GET READY')      
+          this.scene.start('GameScene',  this.table, this.fullScreen)
     } 
+
    this.timer+= time.elapsed;
    if (this.timer >= 1000) {
-    this.text.active = !this.text.active
    }
 
     //utilise full screen
