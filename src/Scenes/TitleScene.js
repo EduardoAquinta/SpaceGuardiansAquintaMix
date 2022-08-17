@@ -7,10 +7,10 @@ class TitleScene extends Phaser.Scene {
     this.timer = 0;
     this.text = "";
     this.highscore =  0;
-    this.highScoreName = "";
-    this.highScoreTable = [];
-    this.highScoreTable.length = 10;
+    this.highScoreTable = localStorage.getItem('highscoretable') == null ? this.createTable() : localStorage.getItem('highscoretable');
+    this.length = 10;
   }
+  
   preload() {
     this.load.image("starfield", "./assets/stars.png");
     this.load.image('player', './assets/player.png')
@@ -74,7 +74,7 @@ class TitleScene extends Phaser.Scene {
       align: 'center'
     })
 
-    this.add.text(230,570,'The DareDevs', {
+    this.add.text(200,570,'Aquinta (Remix)', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 30,
       color: '#ff0000',
@@ -82,12 +82,21 @@ class TitleScene extends Phaser.Scene {
     })
 
     this.levelEnd.play()
+    
+    for (let i = 0 ; i < length; i++){
+      this.highScoreTable[i] = {score: 0, user: "aaa"};
+    }
 
-    window.localStorage.setItem('highscoretable', this.highScoreTable)
 
-    console.log(localStorage);
-    console.log(this.highScoreTable);
+   this.table = {table: this.highScoreTable}
 
+  }
+  //bespoke Methods
+  createTable(){
+    for (let i = 0 ; i < this.length; i++){
+      this.highScoreTable[i] = ({score: 0, user: "aaa"});
+      window.localStorage.setItem('highscoretable', this.highScoreTable)
+    }
   }
   update(time){
 
@@ -98,7 +107,7 @@ class TitleScene extends Phaser.Scene {
     if(keySPACE.isDown && !this.modeSelected){
         this.add.text(250,400,'GET READY')
         this.modeSelected=true;
-        this.scene.start('GameScene',  this.highScoreTable)
+        this.scene.start('GameScene',  this.table)
     } 
    this.timer+= time.elapsed;
    if (this.timer >= 1000) {

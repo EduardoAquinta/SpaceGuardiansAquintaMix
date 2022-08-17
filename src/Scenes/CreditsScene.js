@@ -5,13 +5,19 @@ export class CreditsScene extends Phaser.Scene {
     super("CreditsScene");
     this.user = '';
     this.storedHighScore = 0;
-    this.highScoreAndName = {};
+    this.newScore = {};
+    this.number_of_high_scores = 10;
+    this.textMove = 15;
+    this.textMove2 = 15;
+    this.textMove3 = 15;
+
   }
 
   init(data) {
     this.score = data.score;
     this.level = data.level; 
-    this.highScoreTable = data.highScoreTable;
+    this.highScoreTable = JSON.parse(data.table);
+
   }
 
   preload() {
@@ -26,19 +32,19 @@ export class CreditsScene extends Phaser.Scene {
 
   create() {
     this.add.image(400, 100, "title");
-    this.add.text(230, 280, `You scored - ${this.score}`, {
+    this.add.text(230, 530, `You scored - ${this.score}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#ff0000",
       align: "center",
     });
-    this.add.text(190, 330, `You reached Level - ${this.level}`, {
+    this.add.text(190, 500, `You reached Level - ${this.level}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#0404fc",
       align: "center",
     }); 
-      this.add.text(200, 350, "Press SPACE to restart!", {
+      this.add.text(200, 470, "Press SPACE to restart!", {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#ff0000", 
@@ -46,58 +52,93 @@ export class CreditsScene extends Phaser.Scene {
     });
     this.storedHighScore = window.localStorage.getItem('highscore');
 
-    if (this.score > this.storedHighScore){
-      window.localStorage.setItem('highscore', this.score)
-      this.user = prompt("Please input your name:", "user");
-      this.storedHighScore = window.localStorage.getItem('highscore');
-      this.highScoreAndName.push(this.highScoreAndName);
-      this.add.text(200, 380, "New HighScore: " + this.storedHighScore + ": " + this.user  ,{
+    
+    for (let element of this.highScoreTable){
+       if(this.score >= element.score) {
+        this.saveHighScore();
+         break;
+      }}; 
+
+    
+    
+    
+    // this.add.text(200, 380, "HighScore: " + this.highScoreTable[0].score + ": " + this.highScoreTable[0].user  , {
+    //   fontFamily: "'Press Start 2P', serif",
+    //   fontSize: 20,
+    //   color: "#ff0000",    
+    //   align: "center",
+    // })
+    this.add.text(180, 170, "Rank     Name     Score", {
+      fontFamily: "'Press Start 2P', serif",
+      fontSize: 20,
+      color: "#ff0000", 
+      align: "center",
+    });
+     
+    this.highScoreTable.forEach((i, j) => {
+ 
+      this.textMove+=20; 
+      this.add.text(210, 180+this.textMove, j+1 ,{
         fontFamily: "'Press Start 2P', serif",
-        fontSize: 20,
+        fontSize: 15,
         color: "#ff0000", 
         align: "center",
       })
-      } else {
-        this.add.text(200, 380, "HighScore: " + this.storedHighScore,{
-          fontFamily: "'Press Start 2P', serif",
-          fontSize: 20,
-          color: "#ff0000", 
-          align: "center",
-        })
-      }  
-      this.add.text(200, 410 , "Table" + this.highScoreTable  ,{
+    } )
+    this.highScoreTable.forEach((i, j) => {
+      this.textMove2+=20; 
+      this.add.text(350, 180+this.textMove2, i.user, {
         fontFamily: "'Press Start 2P', serif",
-        fontSize: 20,
+        fontSize: 15,
         color: "#ff0000", 
         align: "center",
       })
-    this.add.text(180, 580, "Written by The DareDevs", {
+    } )
+    this.highScoreTable.forEach((i, j) => {
+      console.log(j+1, i.user, i.score ) ; 
+      this.textMove3+=20; 
+      this.add.text(570, 180+this.textMove3,  i.score, {
+        fontFamily: "'Press Start 2P', serif",
+        fontSize: 15,
+        color: "#ff0000", 
+        align: "center",
+      })
+    } )
+  
+    this.add.text(200, 580, "Remixed by Aquinta", {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#ff0000",
       align: "center",
     });
 
-    // this.number_of_high_scores = 10;
+   
+    
+  }
 
-    // function saveHighScore(score, highScores) {
-    //   const name = prompt('Please enter your name:');
-    //   const newScore = {score, name};
+//bespoke methods
 
-    //   this.highScores.push(newScore);
+    saveHighScore(score) {
+      let user = prompt('Please enter your name:');
+      this.user = user;
+      score = this.score;
+      this.score = this.storedHighScore;
 
-    //   this.highScores.sort((a, b) => b.score - a.score);
+      this.newScore = {score, user};
 
-    //   this.highScores.splice(number_of_high_scores);
+      this.highScoreTable.push(this.newScore);
 
-    //   localStorage.setItem(this.storedHighScore, JSON.stringify(this.highScores))
-    // }
-       
+      this.highScoreTable.sort((a, b) => b.score - a.score);
 
-    console.log(window.localStorage.getItem('highscore'))
-    console.log(this.highScoreTable)
+      this.highScoreTable.splice(this.number_of_high_scores);
 
-   }
+      localStorage.setItem(this.highscore,(score));
+      localStorage.setItem('highscoretable', JSON.stringify(this.highScoreTable));
+    }
+     
+      
+
+   
   update() {
     let keySPACE = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
@@ -105,10 +146,7 @@ export class CreditsScene extends Phaser.Scene {
     if (keySPACE.isDown) {
       this.scene.start("GameScene");
     }
-       if(this.score > this.storedHighScore) {
-        window.localStorage.setItem('highScoreTable', this.user)
-       }
-
+      
     
   }
 }
