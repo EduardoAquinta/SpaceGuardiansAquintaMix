@@ -25,6 +25,7 @@ class TitleScene extends Phaser.Scene {
     link.href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap";
     head.appendChild(link);
   }
+
   create() {
     this.starfield = this.add
       .tileSprite(0, 0, 800, 600, "starfield")
@@ -94,10 +95,11 @@ class TitleScene extends Phaser.Scene {
    this.table = {table: this.highScoreTable}
    this.fullscreen = {fullScreen: this.scale.fullscreen}
   }
+
   //bespoke Methods
   createTable(){
     for (let i = 0 ; i < this.length; i++){
-      this.highScoreTable[i] = ({score: 0, user: "aaa"});
+      this.highScoreTable[i] = ({score: NaN, user: ""});
       window.localStorage.setItem('highscoretable', JSON.stringify(this.highScoreTable));
     }
   }

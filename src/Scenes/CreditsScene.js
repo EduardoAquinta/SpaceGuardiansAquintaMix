@@ -33,6 +33,7 @@ export class CreditsScene extends Phaser.Scene {
   }
 
   create() {
+    console.log(this.highScoreTable);
     this.starfield = this.add
     .tileSprite(0, 0, 800, 600, "starfield")
     .setScale(2);
@@ -55,7 +56,7 @@ export class CreditsScene extends Phaser.Scene {
       color: "#ff0000", 
       align: "center",
     });
-    this.storedHighScore = window.localStorage.getItem('highscore');
+    //this.storedHighScore = window.localStorage.getItem('highscore');
 
     
     for (let element of this.highScoreTable){
@@ -92,7 +93,6 @@ export class CreditsScene extends Phaser.Scene {
       })
     } )
     this.highScoreTable.forEach((i, j) => {
-      console.log(j+1, i.user, i.score ) ; 
       this.textMove3+=20; 
       this.add.text(560, 180+this.textMove3,  i.score, {
         fontFamily: "'Press Start 2P', serif",
