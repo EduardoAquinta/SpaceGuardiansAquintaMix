@@ -1,4 +1,4 @@
-#Space Guardians (Aquinta Mix)
+# Space Guardians (Aquinta Mix)
 
 Space Guardians is a Arcadians (BBC, 1983) clone that was written for the final project of the bootcamp at northcoders. 
 This remix has taken the game out of the react front end and uses a LocalStorage for the high score table. 
