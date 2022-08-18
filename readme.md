@@ -6,7 +6,7 @@ I have also tweaked various elements and am looking to further alter the game mo
 
 ## Installation 
 
-Simply clone the repository to your computer and use a live server to play the game in your browser. 
+Simply clone the repository to your computer and use a live server to play the game in your browser. Also available to play at - https://main--spaceguardians.netlify.app/
 
 ## Usage
 
@@ -16,6 +16,10 @@ Once the game is up and running everything is explaned, as you can see here -
 ## The Game itself
 
 You are in a high score battle with you and your friends, as the last Space Guardian left in the fight against the evil Arcadians!
+
+### How to delete your local high score table
+
+Open the developer inpector in your browser, head to applications, and find local storage where you will see the 'localhighscores' object. Simply delete it and you will have a fresh high score table. Do this at your peril as the scores will be gone forever!
 
 ## Contributing
 
