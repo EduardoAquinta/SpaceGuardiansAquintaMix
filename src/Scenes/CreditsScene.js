@@ -41,7 +41,7 @@ export class CreditsScene extends Phaser.Scene {
       color: "#0404fc",
       align: "center",
     });
-    this.add.text(190, 500, `You reached Level - ${this.level}`, {
+    this.add.text(190, 500, `You reached Wave - ${this.level}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#0404fc",
@@ -99,7 +99,7 @@ export class CreditsScene extends Phaser.Scene {
       })
     } )
   
-    this.add.text(220, 580, "Remixed by Aquinta", {
+    this.add.text(220, 565, "Remixed by Aquinta", {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: "#ff0000",

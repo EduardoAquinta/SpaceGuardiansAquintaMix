@@ -79,7 +79,7 @@ class GameScene extends Phaser.Scene {
       color: '#ff0000',
       align: 'center',
     });
-    this.levelTable = this.add.text(620, 5, `Level: ${this.level}`, {
+    this.levelTable = this.add.text(630, 5, `Wave: ${this.level}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: '#ff0000',
