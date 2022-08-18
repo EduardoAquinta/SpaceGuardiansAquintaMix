@@ -6,7 +6,7 @@ class TitleScene extends Phaser.Scene {
     this.timer = 0;
     this.text = "";
     this.highscore =  0;
-    this.highScoreTable = localStorage.getItem('highscoretable') == null ? this.createTable() : localStorage.getItem('highscoretable');
+    this.highScoreTable = [];
     this.length = 10;
   }
   
@@ -82,20 +82,23 @@ class TitleScene extends Phaser.Scene {
 
     this.levelEnd.play()
     
+    if (localStorage.getItem('highscoretable') == null) {
+      this.createTable()
+     } else {
+      localStorage.getItem('highscoretable')};
     // for (let i = 0 ; i < length; i++){
     //   this.highScoreTable[i] = {score: 0, user: "aaa"};
     // }
 
-
+   this.highScoreTable = localStorage.getItem('highscoretable');
    this.table = {table: this.highScoreTable}
    this.fullscreen = {fullScreen: this.scale.fullscreen}
-
   }
   //bespoke Methods
   createTable(){
     for (let i = 0 ; i < this.length; i++){
       this.highScoreTable[i] = ({score: 0, user: "aaa"});
-      window.localStorage.setItem('highscoretable', this.highScoreTable)
+      window.localStorage.setItem('highscoretable', JSON.stringify(this.highScoreTable));
     }
   }
   update(time){

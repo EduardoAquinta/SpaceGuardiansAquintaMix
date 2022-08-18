@@ -1,4 +1,4 @@
-//import Phaser from "phaser";
+ //import Phaser from "phaser";
 
 export class CreditsScene extends Phaser.Scene {
   constructor() {
@@ -73,8 +73,7 @@ export class CreditsScene extends Phaser.Scene {
       align: "center",
     });
      
-    this.highScoreTable.forEach((i, j) => {
- 
+    this.highScoreTable.forEach((i, j) => { 
       this.textMove+=20; 
       this.add.text(200, 180+this.textMove, j+1 ,{
         fontFamily: "'Press Start 2P', serif",
@@ -111,7 +110,7 @@ export class CreditsScene extends Phaser.Scene {
     });
 
    
-    
+    console.log(this.highScoreTable);
   }
 
 //bespoke methods
@@ -120,7 +119,7 @@ export class CreditsScene extends Phaser.Scene {
       let user = prompt('Please enter your name:');
       this.user = user;
       score = this.score;
-      this.score = this.storedHighScore;
+     // this.score = this.storedHighScore;
 
       this.newScore = {score, user};
 
@@ -130,7 +129,7 @@ export class CreditsScene extends Phaser.Scene {
 
       this.highScoreTable.splice(this.number_of_high_scores);
 
-      localStorage.setItem(this.highscore,(score));
+      //localStorage.setItem(this.highscore,(score));
       localStorage.setItem('highscoretable', JSON.stringify(this.highScoreTable));
     }
      
