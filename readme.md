@@ -11,3 +11,16 @@ Simply clone the repository to your computer and use a live server to play the g
 ## Usage
 
 Once the game is up and running everything is explaned, as you can see here - 
+![screenshot1](/src/assets/screenshot1.png?raw=true "Screenshot 1")
+
+## The Game itself
+
+You are in a high score battle with you and your friends, as the last Space Guardian left in the fight against the evil Arcadians!
+
+## Contributing
+
+I am open to any and all suggestions for improvements, beyond what I have listed above. It is my hope to eventually have a full clone of Arcadians, but as a first time out I am still happy with what we have. 
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
