@@ -1,5 +1,3 @@
- //import Phaser from "phaser";
-
 export class CreditsScene extends Phaser.Scene {
   constructor() {
     super("CreditsScene");
@@ -33,7 +31,6 @@ export class CreditsScene extends Phaser.Scene {
   }
 
   create() {
-    console.log(this.highScoreTable);
     this.starfield = this.add
     .tileSprite(0, 0, 800, 600, "starfield")
     .setScale(2);
@@ -110,7 +107,6 @@ export class CreditsScene extends Phaser.Scene {
     });
 
    
-    console.log(this.highScoreTable);
   }
 
 //bespoke methods

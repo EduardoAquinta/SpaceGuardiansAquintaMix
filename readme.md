@@ -6,7 +6,8 @@ I have also tweaked various elements and am looking to further alter the game mo
 
 ## Installation 
 
-Simply clone the repository to your computer and use a live server to play the game in your browser. Also available to play at - https://main--spaceguardians.netlify.app/
+Simply clone the repository to your computer and use a live server to play the game in your browser. If you use VSCode you can download the LiveServer Extension, and then right-click on the index.HTML file and click the Live-Server option. 
+Also available to play at - https://spaceguardians.netlify.app/
 
 ## Usage
 
@@ -15,7 +16,8 @@ Once the game is up and running everything is explaned, as you can see here -
 
 ## The Game itself
 
-You are in a high score battle with you and your friends, as the last Space Guardian left in the fight against the evil Arcadians!
+You are in a high score battle with you and your friends, as the last Space Guardian left in the fight against the evil Arcadians! 
+After you have defeated a wave of aliens, the next will appear and will shoot more often and come down towards the Earth faster than the previous Wave. 
 
 ### How to delete your local high score table
 
@@ -23,7 +25,7 @@ Open the developer inpector in your browser, head to applications, and find loca
 
 ## Contributing
 
-I am open to any and all suggestions for improvements, beyond what I have listed above. It is my hope to eventually have a full clone of Arcadians, but as a first time out I am still happy with what we have. 
+I am open to any and all suggestions for improvements, beyond what I have listed above. It is my hope to eventually have a full clone of Arcadians, but as a first time out I am still happy with what I have. 
 
 ## License
 

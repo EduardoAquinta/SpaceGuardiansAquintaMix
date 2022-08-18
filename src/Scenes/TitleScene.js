@@ -1,5 +1,3 @@
-//import Phaser from 'phaser';
-
 class TitleScene extends Phaser.Scene {
   constructor() {
     super('TitleScene');
@@ -39,7 +37,7 @@ class TitleScene extends Phaser.Scene {
     
     this.levelEnd = this.sound.add('levelEnd', { loop: false });
     
-    this.text = this.add.text(200,300,'Press SPACE to start!', {
+    this.text = this.add.text(200,320,'Press SPACE to start!', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 20,
       color: '#ff0000',
@@ -49,32 +47,32 @@ class TitleScene extends Phaser.Scene {
     this.add.text(70,400,'Lateral Ship Movements - left/right', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 20,
-      color: '#ff0000',
+      color: '#0404fc',
       align: 'center'
     })
 
-    this.add.text(180,430,'Fire weapon - SpaceBar', {
+    this.add.text(190,430,'Fire weapon - SpaceBar', {
+      fontFamily: '\'Press Start 2P\', serif',
+      fontSize: 20,
+      color: '#ffff00',
+      align: 'center'
+    })
+
+    this.add.text(230,460,'Pause Game - Shift', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 20,
       color: '#ff0000',
       align: 'center'
     })
 
-    this.add.text(200,460,'Pause Game - Shift', {
+    this.add.text(150,490,'Toggle Full Screen - CTRL', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 20,
-      color: '#ff0000',
+      color: '#0404fc',
       align: 'center'
     })
 
-    this.add.text(180,490,'Toggle Full Screen - CTRL', {
-      fontFamily: '\'Press Start 2P\', serif',
-      fontSize: 20,
-      color: '#ff0000',
-      align: 'center'
-    })
-
-    this.add.text(200,570,'Aquinta (Remix)', {
+    this.add.text(200,550,'Aquinta (Remix)', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 30,
       color: '#ff0000',

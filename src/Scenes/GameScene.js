@@ -1,5 +1,3 @@
-//import Phaser from 'phaser';
-
 class GameScene extends Phaser.Scene {
   constructor() {
     super('GameScene');
@@ -30,14 +28,9 @@ class GameScene extends Phaser.Scene {
     this.shootingRate = 0;
   }
 
-  //custom method to extract the score
-  extractScore() {
-    return this.score;
-  }
+
 
   init(data) {
-
-    //this.highScoreTable = data.table;
     this.fullScreen = data.fullScreen;
   }
  
@@ -76,9 +69,7 @@ class GameScene extends Phaser.Scene {
   create() {
     this.highScoreTable = localStorage.getItem('highscoretable');
 
-    console.log(JSON.parse(this.highScoreTable));
- 
-    this.physics.world.setBounds(0, 0, 800, 600);
+   this.physics.world.setBounds(0, 0, 800, 600);
     this.starfield = this.add
       .tileSprite(0, 0, 800, 600, 'starfield')
       .setScale(2);
@@ -182,7 +173,8 @@ class GameScene extends Phaser.Scene {
     this.createAliens();
 
     //creating the player
-    this.createPLayer();
+    this.createPlayer();
+    //this.time.addEvent({delay: 500, loop: false},this.createPLayer(), this);;
 
     //play the music
     this.music.play();
@@ -215,7 +207,8 @@ class GameScene extends Phaser.Scene {
   }
 
   //player creation
-  createPLayer() {
+  createPlayer() {
+   
     this.player = this.physics.add.image(400, 530, 'player');
     this.player.setCollideWorldBounds(true);
     this.player = this.physics.add.existing(this.player, 0);
@@ -452,15 +445,14 @@ class GameScene extends Phaser.Scene {
     }
    
 
-     
   }
 
   //bespoke methods
 
-  destroyPlayer(player, bullet) {
+  destroyPlayer(player, bullet, time) {
     player.destroy();
     bullet.destroy();
-  }
+     }
 
   destroySprites(invader, bullet) {
     invader.destroy();
@@ -505,7 +497,7 @@ class GameScene extends Phaser.Scene {
     this.scene.start('CreditsScene', this.overall);
   }
 
-
+ 
 
   //Phaser Update method
 
@@ -597,7 +589,7 @@ class GameScene extends Phaser.Scene {
       this.playerDeathFX.play();
       this.playerLives -= 1;
       this.livesDisplayer.setText(`Lives: ${this.playerLives}`);
-      this.createPLayer();
+      this.createPlayer();
     }
 
     //extra player lives function call
