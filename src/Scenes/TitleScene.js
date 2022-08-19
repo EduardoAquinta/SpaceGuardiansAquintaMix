@@ -6,6 +6,12 @@ class TitleScene extends Phaser.Scene {
     this.highscore =  0;
     this.highScoreTable = [];
     this.length = 10;
+    this.timer;
+    this.instructions;
+    this.instructions2;
+    this.instructions3;
+    this.instructions4;
+
   }
   
   preload() {
@@ -25,6 +31,8 @@ class TitleScene extends Phaser.Scene {
   }
 
   create() {
+
+
     this.starfield = this.add
       .tileSprite(0, 0, 800, 600, "starfield")
       .setScale(2);
@@ -44,28 +52,28 @@ class TitleScene extends Phaser.Scene {
       align: 'center'
     })
 
-    this.add.text(70,400,'Lateral Ship Movements - left/right', {
+   this.instructions =  this.add.text(70,400,'Lateral Ship Movements - left/right', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 20,
       color: '#0404fc',
       align: 'center'
     })
 
-    this.add.text(190,430,'Fire weapon - SpaceBar', {
+    this.instructions2 = this.add.text(190,430,'Fire weapon - SpaceBar', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 20,
       color: '#ffff00',
       align: 'center'
     })
 
-    this.add.text(230,460,'Pause Game - Shift', {
+    this.instructions3 = this.add.text(230,460,'Pause Game - Shift', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 20,
       color: '#ff0000',
       align: 'center'
     })
 
-    this.add.text(150,490,'Toggle Full Screen - CTRL', {
+    this.instructions4 = this.add.text(150,490,'Toggle Full Screen - CTRL', {
       fontFamily: '\'Press Start 2P\', serif',
       fontSize: 20,
       color: '#0404fc',
@@ -85,13 +93,12 @@ class TitleScene extends Phaser.Scene {
       this.createTable()
      } else {
       localStorage.getItem('highscoretable')};
-    // for (let i = 0 ; i < length; i++){
-    //   this.highScoreTable[i] = {score: 0, user: "aaa"};
-    // }
+   
 
    this.highScoreTable = localStorage.getItem('highscoretable');
    this.table = {table: this.highScoreTable}
    this.fullscreen = {fullScreen: this.scale.fullscreen}
+
   }
 
   //bespoke Methods
@@ -101,20 +108,34 @@ class TitleScene extends Phaser.Scene {
       window.localStorage.setItem('highscoretable', JSON.stringify(this.highScoreTable));
     }
   }
+
+  startGame() {
+    this.scene.start('GameScene',  this.table, this.fullScreen)
+  }
+ 
+  
+ 
+
   update(time){
 
      //scroll the starfield
      this.starfield.tilePositionY -= 0.5;
 
     let keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    if(keySPACE.isDown && !this.modeSelected){
-        this.add.text(250,400,'GET READY')      
-          this.scene.start('GameScene',  this.table, this.fullScreen)
-    } 
-
-   this.timer+= time.elapsed;
-   if (this.timer >= 1000) {
-   }
+    if(keySPACE.isDown){
+        this.add.text(280,430,'GET READY', {
+          fontFamily: '\'Press Start 2P\', serif',
+          fontSize: 30,
+          color: '#ff0000',
+          align: 'center'
+        }); 
+        console.log(this.instructions); 
+        this.instructions.destroy();
+        this.instructions2.destroy();
+        this.instructions3.destroy();
+        this.instructions4.destroy();
+        this.timer = this.time.addEvent({delay: 2000, callback: this.startGame, callbackScope: this, loop:false});
+         } 
 
     //utilise full screen
    let CTRLKey = this.input.keyboard.addKey('CTRL');

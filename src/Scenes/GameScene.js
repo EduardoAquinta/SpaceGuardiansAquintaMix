@@ -20,7 +20,7 @@ class GameScene extends Phaser.Scene {
     this.extraLifeinterval = 5000;
     this.extraLifeCounter = 1;
     this.resources = 0;
-    this.timer = 0;
+    this.timer;
     this.explosion = [];
     this.overall = {};
     this.isPaused = false;
@@ -204,27 +204,20 @@ class GameScene extends Phaser.Scene {
     this.explosion.on('animationcomplete', () => {
       this.explosion.setVisible(false);
     });
+
+   
+
+    console.log(this.time);
   }
 
   //player creation
-  createPlayer() {
-   
+  createPlayer() {   
     this.player = this.physics.add.image(400, 530, 'player');
     this.player.setCollideWorldBounds(true);
     this.player = this.physics.add.existing(this.player, 0);
     this.player.body.allowGravity = false;
-    this.physics.add.collider(
-      this.player,
-      this.aliens,
-      this.destroyPlayer,
-      this.world
-    );
-    this.physics.add.collider(
-      this.player,
-      this.enemyBullets,
-      this.destroyPlayer,
-      this.world
-    );
+    this.timer = this.time.addEvent({delay: 1000, callback: this.playerPhysics, callbackScope: this, loop:false});
+   
   }
 
   //enemy creation
@@ -449,6 +442,14 @@ class GameScene extends Phaser.Scene {
 
   //bespoke methods
 
+  playerPhysics() {
+    this.physics.add.collider(
+    this.player,
+    this.enemyBullets,
+    this.destroyPlayer,
+    this.world
+  );}
+
   destroyPlayer(player, bullet, time) {
     player.destroy();
     bullet.destroy();
@@ -466,8 +467,6 @@ class GameScene extends Phaser.Scene {
       this.livesDisplayer.setText(`Lives: ${this.playerLives}`);
       this.extraLife.play();
     }
-
-
   }
 
   //play SFX methods
