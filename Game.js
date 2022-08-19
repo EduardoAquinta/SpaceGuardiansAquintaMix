@@ -21,6 +21,8 @@ const config = {
           gravity: { y: 0.05 },
         },
       },
+      inputGamepad: true,
+      inputMouse: false,
       audio: {
         disableWebAudio: true,
       },
