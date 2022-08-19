@@ -123,13 +123,12 @@ class TitleScene extends Phaser.Scene {
 
     let keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     if(keySPACE.isDown){
-        this.add.text(280,430,'GET READY', {
+        this.add.text(280,430,'GET READY!', {
           fontFamily: '\'Press Start 2P\', serif',
           fontSize: 30,
           color: '#ff0000',
           align: 'center'
         }); 
-        console.log(this.instructions); 
         this.instructions.destroy();
         this.instructions2.destroy();
         this.instructions3.destroy();

@@ -16,7 +16,8 @@ class GameScene extends Phaser.Scene {
     this.started = false;
     this.level = 1;
     this.playerLives = 2;
-    this.scoreRank = 0;
+    this.scoreRankInitial = 10;
+    this.scoreRank = 11;
     this.extraLifeinterval = 5000;
     this.extraLifeCounter = 1;
     this.resources = 0;
@@ -26,6 +27,8 @@ class GameScene extends Phaser.Scene {
     this.isPaused = false;
     this.enemyShoot = 1000;
     this.shootingRate = 0;
+    this.parsedTable;
+    this.tableRank = 9;
   }
 
 
@@ -52,9 +55,13 @@ class GameScene extends Phaser.Scene {
     this.load.image('bullet', './src/assets/bullet.png');
     this.load.image('enemyBullet', './src/assets/enemyBullet.png');
     this.load.spritesheet('explosion', './src/assets/explosion.png', {
-      frameWidth: 24,
-      frameHeight: 36,
+      frameWidth: 20,
+      frameHeight: 20,
     });
+    this.load.spritesheet('boom', './src/assets/boom.png', {
+      frameWidth:12,
+      frameHeight: 12,
+    })
     this.load.audio('shoot', ['./src/assets/shoot.wav']);
     this.load.audio('death', ['./src/assets/death.wav']);
     this.load.audio('tune', ['./src/assets/music.mp3']);
@@ -68,33 +75,71 @@ class GameScene extends Phaser.Scene {
 
   create() {
     this.highScoreTable = localStorage.getItem('highscoretable');
+    this.parsedTable = JSON.parse(this.highScoreTable);
+    this.physics.world.setBounds(0, 0, 800, 600);
 
-   this.physics.world.setBounds(0, 0, 800, 600);
     this.starfield = this.add
       .tileSprite(0, 0, 800, 600, 'starfield')
       .setScale(2);
+
     this.scoreTable = this.add.text(5, 5, `Score : ${this.score}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: '#ff0000',
       align: 'center',
     });
+
     this.levelTable = this.add.text(630, 5, `Wave: ${this.level}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: '#ff0000',
       align: 'center',
     });
+
     this.livesDisplayer = this.add.text(5, 570, `Lives: ${this.playerLives}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
       color: '#ff0000',
       align: 'center',
     });
+
+    // this.rankView = this.parsedTable.forEach((x, i) => {
+    //   console.log(x, i, x.score, this.score);
+    //   if(this.score >= x.score){
+    //      this.add.text(
+    //       630,
+    //       570,
+    //       `Rank: ${i}`,
+    //       {
+    //         fontFamily: "'Press Start 2P', serif",
+    //         fontSize: 20,
+    //         color: '#ffff00',
+    //         align: 'center',
+    //       }
+    //     );
+    //   }
+    // })
+    console.log(this.parsedTable[this.tableRank].score)
+
+
+      // if (this.score >= this.parsedTable[this.tableRank].score) {
+      //   this.tableRank--;
+      //   this.scoreRank--;
+      //   this.timer = this.time.addEvent({delay: 1500, callback: this.console, callbackScope: this, loop:false});
+
+      // };
+    
+
+    // this.parsedTable.forEach((x, i) => {
+    //  console.log(x.score, this.score, i);
+    //   //console.log(x[this.tableRank].score)
+
+    // });
+
     this.scoreRankDisplayer = this.add.text(
       630,
       570,
-      `Rank: ${this.scoreRank}`,
+      `Rank: ${this.scoreRankInitial}`,
       {
         fontFamily: "'Press Start 2P', serif",
         fontSize: 20,
@@ -102,6 +147,27 @@ class GameScene extends Phaser.Scene {
         align: 'center',
       }
     );
+
+    // this.parsedTable.forEach((x, i) => {
+    //   console.log(this.scoreRank, this.score);
+
+    //   console.log(x, i, x.score, this.score);
+    //   if(this.score >= x.score){
+    //     // console.log(this.scoreRank);
+    //     // this.scoreRank++;
+    //       this.add.text(
+    //       630,
+    //       570,
+    //       `Rank: ${i}`,
+    //       {
+    //         fontFamily: "'Press Start 2P', serif",
+    //         fontSize: 20,
+    //         color: '#ffff00',
+    //         align: 'center',
+    //       }
+    //     );
+    //   }
+    // })
 
     // creating the player bullet
     this.lastFired = null;
@@ -174,7 +240,6 @@ class GameScene extends Phaser.Scene {
 
     //creating the player
     this.createPlayer();
-    //this.time.addEvent({delay: 500, loop: false},this.createPLayer(), this);;
 
     //play the music
     this.music.play();
@@ -184,40 +249,35 @@ class GameScene extends Phaser.Scene {
       key: 'playerDeath',
       frames: this.anims.generateFrameNumbers('explosion', {
         start: 0,
-        end: 7,
+        end: 15,
       }),
       repeat: 0,
-      frameRate: 7,
+      frameRate: 30,
+      hideOnComplete:true
     });
 
     // Create our explosion sprite and hide it initially
-    this.explosion = this.physics.add.sprite(
+    this.boom = this.physics.add.sprite(
       this.player.x,
       this.player.y,
-      'explosion'
+      'boom'
     );
-    this.explosion.setScale(1);
-    this.explosion.setVisible(false);
-    this.explosion.body.allowGravity = false;
+    this.boom.setScale(1);
+    this.boom.setVisible(false);
+    this.boom.body.allowGravity = false;
 
-    //Set it to hide when the explosion finishes
-    this.explosion.on('animationcomplete', () => {
-      this.explosion.setVisible(false);
-    });
-
-   
-
-    console.log(this.time);
+    //end of create function
   }
 
   //player creation
   createPlayer() {   
     this.player = this.physics.add.image(400, 530, 'player');
+    this.player.setVisible(false);
+    this.timer = this.time.addEvent({delay: 1500, callback: this.playerVisible, callbackScope: this, loop:false});
     this.player.setCollideWorldBounds(true);
     this.player = this.physics.add.existing(this.player, 0);
     this.player.body.allowGravity = false;
-    this.timer = this.time.addEvent({delay: 1000, callback: this.playerPhysics, callbackScope: this, loop:false});
-   
+    this.timer = this.time.addEvent({delay: 3500, callback: this.playerPhysics, callbackScope: this, loop:false});
   }
 
   //enemy creation
@@ -441,7 +501,18 @@ class GameScene extends Phaser.Scene {
   }
 
   //bespoke methods
+console() {
+  console.log(this.parsedTable[this.tableRank])
 
+}
+
+
+
+
+  playerVisible() {
+    this.player.setVisible(true);
+  }
+  
   playerPhysics() {
     this.physics.add.collider(
     this.player,
@@ -450,7 +521,7 @@ class GameScene extends Phaser.Scene {
     this.world
   );}
 
-  destroyPlayer(player, bullet, time) {
+  destroyPlayer(player, bullet) {
     player.destroy();
     bullet.destroy();
      }
@@ -480,6 +551,7 @@ class GameScene extends Phaser.Scene {
 
   levelEnding() {
     this.levelEnd.play();
+    console.log(this.game.config.physics.arcade.gravity.y);
   }
 
   //GameOver method
@@ -493,6 +565,8 @@ class GameScene extends Phaser.Scene {
     this.lastStrongInvaderLength = 2;
     this.playerLives = 2;
     this.game.config.physics.arcade.gravity.y = 0.05;
+    this.tableRank = 9;
+    this.scoreRank = 10;
     this.scene.start('CreditsScene', this.overall);
   }
 
@@ -509,7 +583,7 @@ class GameScene extends Phaser.Scene {
     //Initiate the keyboard keys required
     const cursors = this.input.keyboard.createCursorKeys();
 
-
+    //this.rankView();
      //pause the game
     if (cursors.shift.isDown) {
       this.music.setVolume(0.2);
@@ -541,6 +615,24 @@ class GameScene extends Phaser.Scene {
         this.lastFired = time + 50;
       }
     }
+    //on screen rank display
+    // this.parsedTable.forEach((x, i) => {
+    //   console.log(this.parsedTable);
+    //   console.log(this.scoreRank, this.score, "ScoreRank, Score");
+
+    //   if(this.score >= x.score){
+    //     this.scoreRank = x.score;
+    //     console.log(x, i, x.score, this.score, "Everything");
+
+    //   }
+    // })
+    if (this.score >= this.parsedTable[this.tableRank].score) {
+      this.tableRank--;
+      this.scoreRank--;
+      this.scoreRankDisplayer.setText(`Rank: ${this.scoreRank} `)
+      this.timer = this.time.addEvent({delay: 1500, callback: this.console, callbackScope: this, loop:false});
+
+    };
 
     //possible joypad inputs
     // if (pad.left)
@@ -583,8 +675,8 @@ class GameScene extends Phaser.Scene {
     if (this.player.active === false) {
       //this.player.setVelocity(0);
       this.player.setVisible(false);
-      this.explosion.setVisible(true);
-      this.explosion.play('playerDeath', true);
+      this.boom.setVisible(true);
+      this.boom.play('playerDeath', true);
       this.playerDeathFX.play();
       this.playerLives -= 1;
       this.livesDisplayer.setText(`Lives: ${this.playerLives}`);
@@ -620,6 +712,7 @@ class GameScene extends Phaser.Scene {
       this.timer -= 5000;
       this.shootingRate = 0;
     }
+
     //Removing invaders from their object to enable removal from the game
     if (this.started) {
       Object.keys(this.blueInvader).forEach((invader) => {
@@ -685,12 +778,12 @@ class GameScene extends Phaser.Scene {
     //Level reset after last invader destroyed
     if (blueLength + redLength + yellowLength + strongestLength === 0) {
       this.level++;
-      this.levelTable.setText(`Level: ${this.level}`);
+      this.levelTable.setText(`Wave: ${this.level}`);
       this.lastBlueInvaderLength = 30;
       this.lastyellowInvaderLength = 8;
       this.lastRedInvaderLength = 6;
       this.lastStrongInvaderLength = 2;
-      this.game.config.physics.arcade.gravity.y += 0.7;
+      this.game.config.physics.arcade.gravity.y += 1.5;
       this.levelEnding();
       this.createAliens();
     }
