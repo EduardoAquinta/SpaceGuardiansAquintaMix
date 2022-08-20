@@ -104,7 +104,7 @@ class TitleScene extends Phaser.Scene {
   //bespoke Methods
   createTable(){
     for (let i = 0 ; i < this.length; i++){
-      this.highScoreTable[i] = ({score: NaN, user: ""});
+      this.highScoreTable[i] = ({score: 1000 - i*100 , user: "Aquinta"});
       window.localStorage.setItem('highscoretable', JSON.stringify(this.highScoreTable));
     }
   }

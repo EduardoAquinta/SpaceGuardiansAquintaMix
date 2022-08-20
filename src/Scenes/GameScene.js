@@ -569,11 +569,14 @@ class GameScene extends Phaser.Scene {
 
   
     //Rank Display
+    if (this.tableRank === 0){
+      this.scoreRankDisplayer.setText(`Rank: 1`)
+    } else {
     if (this.score >= this.parsedTable[this.tableRank].score) {
       this.tableRank--;
       this.scoreRank--;
       this.scoreRankDisplayer.setText(`Rank: ${this.scoreRank} `)
-    };
+    }};
 
     //possible joypad inputs
     // if (pad.left)
