@@ -29,6 +29,7 @@ class GameScene extends Phaser.Scene {
     this.shootingRate = 0;
     this.parsedTable;
     this.tableRank = 9;
+    this.cursors;
   }
 
 
@@ -74,6 +75,8 @@ class GameScene extends Phaser.Scene {
   //Phaser create function
 
   create() {
+    this.cursors = this.input.keyboard.createCursorKeys();
+
     this.highScoreTable = localStorage.getItem('highscoretable');
     this.parsedTable = JSON.parse(this.highScoreTable);
     this.physics.world.setBounds(0, 0, 800, 600);
@@ -103,39 +106,6 @@ class GameScene extends Phaser.Scene {
       align: 'center',
     });
 
-    // this.rankView = this.parsedTable.forEach((x, i) => {
-    //   console.log(x, i, x.score, this.score);
-    //   if(this.score >= x.score){
-    //      this.add.text(
-    //       630,
-    //       570,
-    //       `Rank: ${i}`,
-    //       {
-    //         fontFamily: "'Press Start 2P', serif",
-    //         fontSize: 20,
-    //         color: '#ffff00',
-    //         align: 'center',
-    //       }
-    //     );
-    //   }
-    // })
-    console.log(this.parsedTable[this.tableRank].score)
-
-
-      // if (this.score >= this.parsedTable[this.tableRank].score) {
-      //   this.tableRank--;
-      //   this.scoreRank--;
-      //   this.timer = this.time.addEvent({delay: 1500, callback: this.console, callbackScope: this, loop:false});
-
-      // };
-    
-
-    // this.parsedTable.forEach((x, i) => {
-    //  console.log(x.score, this.score, i);
-    //   //console.log(x[this.tableRank].score)
-
-    // });
-
     this.scoreRankDisplayer = this.add.text(
       630,
       570,
@@ -148,28 +118,7 @@ class GameScene extends Phaser.Scene {
       }
     );
 
-    // this.parsedTable.forEach((x, i) => {
-    //   console.log(this.scoreRank, this.score);
-
-    //   console.log(x, i, x.score, this.score);
-    //   if(this.score >= x.score){
-    //     // console.log(this.scoreRank);
-    //     // this.scoreRank++;
-    //       this.add.text(
-    //       630,
-    //       570,
-    //       `Rank: ${i}`,
-    //       {
-    //         fontFamily: "'Press Start 2P', serif",
-    //         fontSize: 20,
-    //         color: '#ffff00',
-    //         align: 'center',
-    //       }
-    //     );
-    //   }
-    // })
-
-    // creating the player bullet
+     // creating the player bullet
     this.lastFired = null;
     var Bullet = new Phaser.Class({
       Extends: Phaser.GameObjects.Image,
@@ -194,6 +143,7 @@ class GameScene extends Phaser.Scene {
       classType: Bullet,
       maxSize: 1,
       runChildUpdate: true,
+      allowGravity: false,
     });
 
     //creating the enemy bullets
@@ -286,6 +236,8 @@ class GameScene extends Phaser.Scene {
     let yellowInvaderCounter = 0;
     let redInvaderCounter = 0;
     let strongestInvaderCounter = 0;
+
+
     for (let y = 4; y < 7; y++) {
       for (let x = 4; x < 14; x++) {
         ++blueInvaderCounter;
@@ -501,13 +453,6 @@ class GameScene extends Phaser.Scene {
   }
 
   //bespoke methods
-console() {
-  console.log(this.parsedTable[this.tableRank])
-
-}
-
-
-
 
   playerVisible() {
     this.player.setVisible(true);
@@ -540,6 +485,28 @@ console() {
     }
   }
 
+  playerControls() {   
+    this.input.keyboard.enabled = true;
+ 
+    
+    if (this.cursors.left.isDown) {
+    this.player.x -= 3;
+    this.started = true;
+  }
+  if (this.cursors.right.isDown) {
+    this.player.x += 3;
+    this.started = true;
+  }
+  if (this.cursors.space.isDown) {
+    this.started = true;
+    var bullet = this.bullets.get();
+    if (bullet) {
+      bullet.fire(this.player.x, this.player.y);
+      this.shootWeapon();
+      this.lastFired = this.time + 50;
+    }
+  }}
+
   //play SFX methods
   shootWeapon() {
     this.fire.play();
@@ -551,7 +518,6 @@ console() {
 
   levelEnding() {
     this.levelEnd.play();
-    console.log(this.game.config.physics.arcade.gravity.y);
   }
 
   //GameOver method
@@ -564,9 +530,10 @@ console() {
     this.lastRedInvaderLength = 6;
     this.lastStrongInvaderLength = 2;
     this.playerLives = 2;
-    this.game.config.physics.arcade.gravity.y = 0.05;
+    this.game.config.physics.arcade.gravity.y = 0.08;
     this.tableRank = 9;
-    this.scoreRank = 10;
+    this.scoreRank = 11;
+    this.scoreRankInitial = 10;
     this.scene.start('CreditsScene', this.overall);
   }
 
@@ -583,7 +550,6 @@ console() {
     //Initiate the keyboard keys required
     const cursors = this.input.keyboard.createCursorKeys();
 
-    //this.rankView();
      //pause the game
     if (cursors.shift.isDown) {
       this.music.setVolume(0.2);
@@ -598,40 +564,15 @@ console() {
     let strongestLength = Object.keys(this.strongestInvader).length;
 
     //player input keys
-    if (cursors.left.isDown) {
-      this.player.x -= 3;
-      this.started = true;
-    }
-    if (cursors.right.isDown) {
-      this.player.x += 3;
-      this.started = true;
-    }
-    if (cursors.space.isDown) {
-      this.started = true;
-      var bullet = this.bullets.get();
-      if (bullet) {
-        bullet.fire(this.player.x, this.player.y);
-        this.shootWeapon();
-        this.lastFired = time + 50;
-      }
-    }
-    //on screen rank display
-    // this.parsedTable.forEach((x, i) => {
-    //   console.log(this.parsedTable);
-    //   console.log(this.scoreRank, this.score, "ScoreRank, Score");
+    this.timer = this.time.addEvent({delay: 1500, callback: this.playerControls, callbackScope: this, loop:false});
 
-    //   if(this.score >= x.score){
-    //     this.scoreRank = x.score;
-    //     console.log(x, i, x.score, this.score, "Everything");
 
-    //   }
-    // })
+  
+    //Rank Display
     if (this.score >= this.parsedTable[this.tableRank].score) {
       this.tableRank--;
       this.scoreRank--;
       this.scoreRankDisplayer.setText(`Rank: ${this.scoreRank} `)
-      this.timer = this.time.addEvent({delay: 1500, callback: this.console, callbackScope: this, loop:false});
-
     };
 
     //possible joypad inputs
@@ -673,7 +614,7 @@ console() {
 
     //player death updates
     if (this.player.active === false) {
-      //this.player.setVelocity(0);
+      this.input.keyboard.enabled = false;
       this.player.setVisible(false);
       this.boom.setVisible(true);
       this.boom.play('playerDeath', true);
@@ -681,6 +622,7 @@ console() {
       this.playerLives -= 1;
       this.livesDisplayer.setText(`Lives: ${this.playerLives}`);
       this.createPlayer();
+      this.timer = this.time.addEvent({delay: 1500, callback: this.playerControls, callbackScope: this, loop:false});
     }
 
     //extra player lives function call
@@ -783,7 +725,7 @@ console() {
       this.lastyellowInvaderLength = 8;
       this.lastRedInvaderLength = 6;
       this.lastStrongInvaderLength = 2;
-      this.game.config.physics.arcade.gravity.y += 1.5;
+      this.game.config.physics.arcade.gravity.y *= 1.5;
       this.levelEnding();
       this.createAliens();
     }
