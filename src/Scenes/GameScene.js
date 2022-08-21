@@ -55,13 +55,13 @@ class GameScene extends Phaser.Scene {
     this.load.image('strongestInvader', './src/assets/strongestEnemy.png');
     this.load.image('bullet', './src/assets/bullet.png');
     this.load.image('enemyBullet', './src/assets/enemyBullet.png');
-    this.load.spritesheet('explosion', './src/assets/explosion.png', {
-      frameWidth: 20,
-      frameHeight: 20,
+    this.load.spritesheet('explosion', './src/assets/boom.png', {
+      frameWidth: 100,
+      frameHeight: 96,
     });
     this.load.spritesheet('boom', './src/assets/boom.png', {
-      frameWidth:12,
-      frameHeight: 12,
+      frameWidth:100,
+      frameHeight: 96,
     })
     this.load.audio('shoot', ['./src/assets/shoot.wav']);
     this.load.audio('death', ['./src/assets/death.wav']);
@@ -75,16 +75,22 @@ class GameScene extends Phaser.Scene {
   //Phaser create function
 
   create() {
+    //create keyboard inputs
     this.cursors = this.input.keyboard.createCursorKeys();
 
+    //create highscore table
     this.highScoreTable = localStorage.getItem('highscoretable');
     this.parsedTable = JSON.parse(this.highScoreTable);
+
+    //set the physics up for the game world
     this.physics.world.setBounds(0, 0, 800, 600);
 
+    //add the moving background
     this.starfield = this.add
       .tileSprite(0, 0, 800, 600, 'starfield')
       .setScale(2);
 
+    //add the various text/units for the game UI
     this.scoreTable = this.add.text(5, 5, `Score : ${this.score}`, {
       fontFamily: "'Press Start 2P', serif",
       fontSize: 20,
@@ -197,24 +203,24 @@ class GameScene extends Phaser.Scene {
     //player death animation
     this.anims.create({
       key: 'playerDeath',
-      frames: this.anims.generateFrameNumbers('explosion', {
+      frames: this.anims.generateFrameNumbers('boom', {
         start: 0,
-        end: 15,
+        end: 35,
       }),
       repeat: 0,
-      frameRate: 30,
+      frameRate: 25,
       hideOnComplete:true
     });
 
     // Create our explosion sprite and hide it initially
-    this.boom = this.physics.add.sprite(
-      this.player.x,
-      this.player.y,
-      'boom'
-    );
-    this.boom.setScale(1);
-    this.boom.setVisible(false);
-    this.boom.body.allowGravity = false;
+    // this.boom = this.physics.add.sprite(
+    //   this.player.x,
+    //   this.player.y,
+    //   'boom'
+    // );
+    // this.boom.setScale(1);
+    // this.boom.setVisible(false);
+    // this.boom.body.allowGravity = false;
 
     //end of create function
   }
@@ -223,14 +229,14 @@ class GameScene extends Phaser.Scene {
   createPlayer() {   
     this.player = this.physics.add.image(400, 530, 'player');
     this.player.setVisible(false);
-    this.timer = this.time.addEvent({delay: 1500, callback: this.playerVisible, callbackScope: this, loop:false});
+    this.timer = this.time.addEvent({delay: 1800, callback: this.playerVisible, callbackScope: this, loop:false});
     this.player.setCollideWorldBounds(true);
     this.player = this.physics.add.existing(this.player, 0);
     this.player.body.allowGravity = false;
-    this.timer = this.time.addEvent({delay: 3500, callback: this.playerPhysics, callbackScope: this, loop:false});
+    this.timer = this.time.addEvent({delay: 3800, callback: this.playerPhysics, callbackScope: this, loop:false});
   }
 
-  //enemy creation
+  //enemy creation (4 repeated elements for the different invader types)
   createAliens() {
     let blueInvaderCounter = 0;
     let yellowInvaderCounter = 0;
@@ -333,7 +339,6 @@ class GameScene extends Phaser.Scene {
     }
 
     //enemy animation tween
-
     this.container.add(this.aliens.children.entries);
     var destX = -10;
     var tween = this.tweens.add({
@@ -352,7 +357,7 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  //enemy bullet fire
+  //enemy bullet fire (repeated 4 times for the different invader types)
   blueEnemyFire() {
     let length = 30;
     let random = Math.floor(Math.random() * length) + 1;
@@ -452,7 +457,7 @@ class GameScene extends Phaser.Scene {
 
   }
 
-  //bespoke methods
+  //bespoke methods (as described by the method name)
 
   playerVisible() {
     this.player.setVisible(true);
@@ -520,7 +525,7 @@ class GameScene extends Phaser.Scene {
     this.levelEnd.play();
   }
 
-  //GameOver method
+  //game over method
   gameOver() {
     this.extraLife = true;
     this.score = 0;
@@ -619,13 +624,13 @@ class GameScene extends Phaser.Scene {
     if (this.player.active === false) {
       this.input.keyboard.enabled = false;
       this.player.setVisible(false);
-      this.boom.setVisible(true);
-      this.boom.play('playerDeath', true);
+      //this.boom.setVisible(true);
+      this.add.sprite(this.player.x, this.player.y).play('playerDeath', true);
       this.playerDeathFX.play();
       this.playerLives -= 1;
       this.livesDisplayer.setText(`Lives: ${this.playerLives}`);
       this.createPlayer();
-      this.timer = this.time.addEvent({delay: 1500, callback: this.playerControls, callbackScope: this, loop:false});
+      this.timer = this.time.addEvent({delay: 1800, callback: this.playerControls, callbackScope: this, loop:false});
     }
 
     //extra player lives function call
@@ -650,7 +655,7 @@ class GameScene extends Phaser.Scene {
       this.shootingRate++;
     }
 
-      //shooting Rate Timer
+      //shooting Rate Timer (for debugging the rate of fire from the invaders)
     this.timer += delta;
     while (this.timer > 5000) {
       this.resources += 5;
@@ -658,7 +663,7 @@ class GameScene extends Phaser.Scene {
       this.shootingRate = 0;
     }
 
-    //Removing invaders from their object to enable removal from the game
+    //Removing invaders from their object to enable removal from the gamescreen when hit
     if (this.started) {
       Object.keys(this.blueInvader).forEach((invader) => {
         if (
@@ -735,7 +740,7 @@ class GameScene extends Phaser.Scene {
 
     //Game Over logic
     if (this.playerLives < 0) {
-      this.gameOver();
+      this.timer = this.time.addEvent({delay: 1450, callback: this.gameOver, callbackScope: this, loop:false});
     }
     Object.keys(this.blueInvader).forEach((invader) => {
       if (this.blueInvader[invader].y >= 600) {
