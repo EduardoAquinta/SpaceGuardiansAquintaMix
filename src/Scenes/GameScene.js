@@ -381,6 +381,7 @@ class GameScene extends Phaser.Scene {
       }
     }
   }
+
   yellowEnemyFire() {
     let length = 8;
     let random = Math.floor(Math.random() * length) + 1;
@@ -428,6 +429,7 @@ class GameScene extends Phaser.Scene {
       }
     }
   }
+
   strongestEnemyFire() {
     let length = 6;
     let random = Math.floor(Math.random() * length) + 1;
@@ -453,8 +455,6 @@ class GameScene extends Phaser.Scene {
         this.enemyBulletSound.play();
       }
     }
-   
-
   }
 
   //bespoke methods (as described by the method name)
@@ -491,8 +491,7 @@ class GameScene extends Phaser.Scene {
   }
 
   playerControls() {   
-    this.input.keyboard.enabled = true;
- 
+    this.input.keyboard.enabled = true; 
     
     if (this.cursors.left.isDown) {
     this.player.x -= 3;
@@ -512,7 +511,7 @@ class GameScene extends Phaser.Scene {
     }
   }}
 
-  //play SFX methods
+   //play SFX methods
   shootWeapon() {
     this.fire.play();
   }
@@ -547,8 +546,10 @@ class GameScene extends Phaser.Scene {
   //Phaser Update method
 
   update(time, delta) {
+
     //scroll the starfield
     this.starfield.tilePositionY -= 0.5;
+
     //Score and Level set variable for Game-over Screen
     this.overall = { score: this.score, level: this.level, music: this.music , table: this.highScoreTable, fullScreen: this.scale.fullscreen};
 
@@ -570,8 +571,6 @@ class GameScene extends Phaser.Scene {
 
     //player input keys
     this.timer = this.time.addEvent({delay: 1500, callback: this.playerControls, callbackScope: this, loop:false});
-
-
   
     //Rank Display
     if (this.tableRank === 0){
@@ -604,8 +603,6 @@ class GameScene extends Phaser.Scene {
     //   }
     //     }
 
-
-
     //utilise FullScreen mode
     let CTRLKey = this.input.keyboard.addKey('CTRL');
     CTRLKey.on(
@@ -626,9 +623,12 @@ class GameScene extends Phaser.Scene {
       this.player.setVisible(false);
       //this.boom.setVisible(true);
       this.add.sprite(this.player.x, this.player.y).play('playerDeath', true);
-      this.playerDeathFX.play();
+      this.playerDeathFX.play();      
       this.playerLives -= 1;
       this.livesDisplayer.setText(`Lives: ${this.playerLives}`);
+      if(this.playerLives === -1) {
+        this.livesDisplayer.setText('Lives: 0')
+      }
       this.createPlayer();
       this.timer = this.time.addEvent({delay: 1800, callback: this.playerControls, callbackScope: this, loop:false});
     }
