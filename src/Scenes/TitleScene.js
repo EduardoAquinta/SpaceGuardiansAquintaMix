@@ -15,6 +15,19 @@ class TitleScene extends Phaser.Scene {
   }
   
   preload() {
+    const asyncLoader = (loaderPlugin) => new Promise((resolve, reject) => {
+      this.loaderPlugin.on('filecomplete', resolve).on('loaderror', reject);
+      this.loaderPlugin.start();
+  });
+  const loadFont = async () => {  
+  var head  = document.getElementsByTagName('head')[0];
+    var link  = document.createElement('link');
+    link.rel  = 'stylesheet';
+    link.href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap";
+    await asyncLoader (head.appendChild(link));
+}
+  loadFont();
+
     this.load.image("starfield", "./src/assets/stars.png");
     this.load.image('player', './src/assets/player.png')
     this.load.image('blueEnemy', './src/assets/blueEnemy.png')
@@ -23,11 +36,6 @@ class TitleScene extends Phaser.Scene {
     this.load.image('strongestEnemy', './src/assets/strongestEnemy.png')
     this.load.image('title', './src/assets/SG.png');
     this.load.audio('levelEnd', ['./src/assets/level.wav']);
-    var head  = document.getElementsByTagName('head')[0];
-    var link  = document.createElement('link');
-    link.rel  = 'stylesheet';
-    link.href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap";
-    head.appendChild(link);
   }
 
   create() {
